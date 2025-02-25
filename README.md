@@ -1,4 +1,4 @@
-# 🚀 Auto Job Application Form Filler  
+# 💼 Auto Job Application Form Filler  
 
 This project automates job application submissions using **Selenium**. The script reads user details from a JSON file, navigates to a sample job application page, and fills in the required fields automatically.  
 
@@ -37,19 +37,17 @@ This project automates job application submissions using **Selenium**. The scrip
 
 ## 🚀 Usage  
 
-1. **Start the local server** (if using `application.html` locally)  
+### **Run Two Separate Scripts**
+You need **two terminal windows** (or tabs) for running the project properly:
+
+1. **Start the local server (Run this in Terminal 1)**  
    ```bash  
    python -m http.server 8000  
    ```  
    - Ensure `application.html` is in the same directory.  
    - Open `http://localhost:8000/application.html` in your browser to verify.  
 
-2. **Update `main.py` with the correct URL:**  
-   ```python  
-   sample_url = "http://localhost:8000/application.html"  
-   ```  
-
-3. **Run the script**  
+2. **Run the automation script (Run this in Terminal 2)**  
    ```bash  
    python main.py  
    ```  
@@ -82,4 +80,6 @@ auto-job-application/
 - **Connection refused?** Make sure the local server is running.  
 - **Form not loading?** Check the URL in `main.py`.  
 - **ChromeDriver issues?** Ensure it's installed and matches your Chrome version.  
+
+---
 
