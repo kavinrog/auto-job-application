@@ -83,5 +83,3 @@ auto-job-application/
 - **Form not loading?** Check the URL in `main.py`.  
 - **ChromeDriver issues?** Ensure it's installed and matches your Chrome version.  
 
-🔹 **Happy coding!** 🎯 Let me know if you have any questions. 🚀
-
