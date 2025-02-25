@@ -57,32 +57,53 @@
     button:hover {
       background: #1e7e34;
     }
-    .captcha {
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
       display: none;
-      text-align: center;
-      padding: 10px;
-      background: #ffeb3b;
-      border-radius: 5px;
     }
   </style>
+  <script>
+    function validateForm() {
+      let valid = true;
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let experience = document.getElementById("experience").value;
+      let jobPosition = document.getElementById("job_position").value;
+
+      document.getElementById("nameError").style.display = name ? "none" : "block";
+      document.getElementById("emailError").style.display = email ? "none" : "block";
+      document.getElementById("experienceError").style.display = experience ? "none" : "block";
+      document.getElementById("positionError").style.display = jobPosition ? "none" : "block";
+
+      valid = name && email && experience && jobPosition;
+
+      return valid;
+    }
+  </script>
 </head>
 <body>
   <div class="container">
     <h2 style="text-align: center;">Job Application Form</h2>
-    <form id="jobApplicationForm">
+    <form id="jobApplicationForm" onsubmit="return validateForm()">
       <div class="form-group">
         <label for="name">Full Name:</label>
         <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        <div class="error" id="nameError">Name is required.</div>
       </div>
       
       <div class="form-group">
         <label for="email">Email Address:</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div class="error" id="emailError">Email is required.</div>
       </div>
       
       <div class="form-group">
         <label for="experience">Years of Experience:</label>
         <input type="number" id="experience" name="experience" placeholder="Enter years of experience" required>
+        <div class="error" id="experienceError">Experience is required.</div>
       </div>
       
       <div class="form-group">
@@ -103,11 +124,7 @@
           <option value="Data Scientist">Data Scientist</option>
           <option value="Product Manager">Product Manager</option>
         </select>
-      </div>
-      
-      <!-- Optional: CAPTCHA container (for testing CAPTCHA detection) -->
-      <div class="captcha" id="captcha">
-        <p>Please solve the CAPTCHA challenge.</p>
+        <div class="error" id="positionError">Please select a job position.</div>
       </div>
       
       <button type="submit" id="submit">Submit Application</button>

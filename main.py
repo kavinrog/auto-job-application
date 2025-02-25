@@ -12,82 +12,84 @@
 
 import json
 import time
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 def load_user_details(filepath):
-    """
-    Load user details from a JSON file.
-    Expected JSON format example:
-    {
-      "name": "Jane Doe",
-      "email": "jane.doe@example.com",
-      "experience": "5",
-      "position": "Software Engineer",
-      "gender": "female"
-    }
-    """
+    """Load user details from a JSON file."""
     with open(filepath, "r") as file:
         return json.load(file)
 
 def detect_captcha(driver):
-    """
-    Check if a CAPTCHA is present on the page.
-    Returns True if CAPTCHA is found.
-    """
+    """Detect if CAPTCHA is present."""
     try:
-        driver.find_element(By.ID, "captcha")
+        WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.ID, "captcha")))
+        logging.warning("CAPTCHA detected. Waiting for manual input.")
         return True
-    except NoSuchElementException:
+    except TimeoutException:
         return False
 
 def fill_application_form(driver, user_details):
-    """
-    Navigates to the sample job application page and fills the form using the provided user details.
-    """
-    sample_url = "http://localhost:8000/application.html"  # Ensure this is the correct URL for testing
+    """Navigates to the sample job application page and fills the form using provided details."""
+    sample_url = "http://localhost:8000/application.html"  
     driver.get(sample_url)
-    time.sleep(2)  # Wait for page to load
 
-    # Fill out the form fields
+    logging.info("Opened job application page.")
+
+    # Wait until form is loaded
+    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "name")))
+
+    # Fill the form fields
     driver.find_element(By.ID, "name").send_keys(user_details["name"])
     driver.find_element(By.ID, "email").send_keys(user_details["email"])
     driver.find_element(By.ID, "experience").send_keys(user_details["experience"])
 
-    # Handle radio buttons for gender selection
+    # Handle gender selection
     gender = user_details.get("gender", "").lower()
     if gender == "male":
         driver.find_element(By.ID, "gender_male").click()
     elif gender == "female":
         driver.find_element(By.ID, "gender_female").click()
 
-    # Handle dropdown selection for job position
+    # Handle dropdown selection
     position_dropdown = Select(driver.find_element(By.ID, "job_position"))
     position_dropdown.select_by_visible_text(user_details["position"])
 
-    # Detect and handle CAPTCHA challenges
+    logging.info("Filled application form successfully.")
+
+    # CAPTCHA handling
     if detect_captcha(driver):
-        print("CAPTCHA detected. Please solve it manually.")
         while detect_captcha(driver):
             time.sleep(5)
-        print("CAPTCHA completed.")
+        logging.info("CAPTCHA completed manually.")
 
     # Submit the form
     driver.find_element(By.ID, "submit").click()
-    print("Form submitted successfully.")
+    logging.info("Form submitted successfully.")
 
 def main():
-    """
-    Main function to load user details and initiate the Selenium automation.
-    """
-    user_details = load_user_details("user_data.json")  # Ensure the correct path to the JSON file
-    driver = webdriver.Chrome()  # Make sure ChromeDriver is properly installed and set up
+    """Main function to load user details and initiate Selenium automation."""
+    user_details = load_user_details("user_data.json")
+    
+    # Initialize WebDriver with options
+    options = webdriver.ChromeOptions()
+    # options.add_argument("--headless")  # Run in headless mode (optional)
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(options=options)  # Ensure ChromeDriver is installed
 
     try:
         fill_application_form(driver, user_details)
-        time.sleep(5)  # Allow time to review the submission
+        time.sleep(5)  # Allow time to review submission
     finally:
         driver.quit()
 
