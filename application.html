@@ -15,14 +15,15 @@
       margin: 0;
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
+      width: 90%;
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     .form-group { 
-      margin-bottom: 15px; 
+      margin-bottom: 20px; 
     }
     label { 
       display: block; 
@@ -31,55 +32,57 @@
     }
     input, select {
       width: 100%;
-      padding: 8px;
+      padding: 12px;
       margin-top: 5px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 5px;
+      font-size: 16px;
     }
     .gender-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
     }
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #28a745;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
+      transition: background 0.3s ease-in-out;
     }
     button:hover {
-      background: #218838;
+      background: #1e7e34;
     }
     .captcha {
       display: none;
       text-align: center;
       padding: 10px;
       background: #ffeb3b;
-      border-radius: 4px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Job Application Form</h2>
+    <h2 style="text-align: center;">Job Application Form</h2>
     <form id="jobApplicationForm">
       <div class="form-group">
         <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
       </div>
       
       <div class="form-group">
         <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
       </div>
       
       <div class="form-group">
         <label for="experience">Years of Experience:</label>
-        <input type="number" id="experience" name="experience" required>
+        <input type="number" id="experience" name="experience" placeholder="Enter years of experience" required>
       </div>
       
       <div class="form-group">
