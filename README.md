@@ -102,13 +102,7 @@ Ensure your `application.html` includes a file input:
 <input type="file" id="resume" name="resume">
 ```
 
----  
-
-## 🎥 Demo Video  
-
-Watch the demo: [Demo Video on YouTube](https://youtu.be/YourDemoVideoLink)  
-
----  
+---   
 
 ## 📁 Project Structure  
 
